@@ -86,6 +86,15 @@
 "Opaque" @type.builtin
 "Vector" @type.builtin
 
+; Stdlib types (from standard-library.compact)
+((tref (id) @type.builtin)
+ (#any-of? @type.builtin
+   "Maybe" "Either"
+   "CurvePoint"
+   "MerkleTreeDigest" "MerkleTreePathEntry" "MerkleTreePath" "LeafPreimage"
+   "ContractAddress" "ShieldedCoinInfo" "QualifiedShieldedCoinInfo"
+   "ZswapCoinPublicKey" "ShieldedSendResult" "UserAddress" "CoinPreimage"))
+
 ; Literals
 (nat) @number
 (str) @string

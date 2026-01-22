@@ -174,9 +174,35 @@ module.exports = grammar({
 
     // Import-declaration (idecl)
     //
-    // idecl → import import-name gargs^opt prefix^opt ;
+    // idecl → import import-selection^opt import-name gargs^opt import-prefix^opt ;
     idecl: ($) =>
-      seq("import", field("id", $.import_name), optional(field("gargs", $.gargs)), optional(field("prefix", $.prefix)), ";"),
+      seq(
+        "import",
+        optional(field("selection", $.import_selection)),
+        field("id", $.import_name),
+        optional(field("gargs", $.gargs)),
+        optional(field("prefix", $.prefix)),
+        ";"
+      ),
+
+    // Import-selection (import-selection)
+    //
+    // import-selection → { import-element , ... , import-element ,? } from
+    import_selection: ($) => seq(
+      "{",
+      commaSep1(field("element", $.import_element)),
+      "}",
+      "from"
+    ),
+
+    // Import-element (import-element)
+    //
+    // import-element → id
+    //                → id as id
+    import_element: ($) => choice(
+      field("id", $.id),
+      seq(field("id", $.id), "as", field("alias", $.id))
+    ),
 
     // Import-name (import-name)
     //
